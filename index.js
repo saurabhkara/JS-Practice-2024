@@ -600,3 +600,312 @@ function throttling(fn, delay = 500) {
 // const thrott = throttling(test);
 // thrott(5, 9);
 // thrott();
+
+//=========================
+//----- Revision from notebook---
+// Second largest number from array.
+
+function secondLargestNumber(arr) {
+  let max1 = -Infinity;
+  let max2 = -Infinity;
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] > max1) {
+      max2 = max1;
+      max1 = arr[i];
+    } else if (arr[i] < max1 && arr[i] > max2) {
+      max2 = arr[i];
+    }
+  }
+  return max2;
+}
+
+// console.log(secondLargestNumber([5, 4, 6, 7, 3, 9]));
+
+//=====================================================
+//Check String is Palindrome
+// string reads from same end
+
+function isPalindrome(str) {
+  let length = str.length;
+  let flag = true;
+  for (let i = 0; i < parseInt(length / 2); i++) {
+    if (str[i] !== str[length - 1 - i]) {
+      flag = false;
+      break;
+    }
+  }
+
+  return flag;
+}
+
+// console.log(isPalindrome("SarasS"));
+
+function isPalindromeMetho(str) {
+  return str.toLowerCase() === str.toLowerCase().split("").reverse().join("");
+}
+
+// console.log(isPalindromeMetho("asauu"));
+
+//=========================================================
+//Write a js function that takes array of numbers and returns a array that has only even number
+
+function filterEven(arr) {
+  return arr.filter((elem) => elem % 2 === 0);
+}
+// console.log(filterEven([5, 4, 0, 3, 1, 7, 9, 6]));
+
+//=============================================================
+//Factorial of given number
+function factorial(num) {
+  let fact = 1;
+
+  if (num < 2) {
+    return fact;
+  }
+  for (let k = 2; k <= num; k++) {
+    fact = fact * k;
+  }
+  return fact;
+}
+
+// console.log(factorial(5));
+// console.log(factorial(0));
+// console.log(factorial(1));
+
+//===============================================================
+//Prime number of not
+
+function isPrime(num) {
+  let flag = true;
+  let i = 2;
+  let thresold = parseInt(Math.sqrt(num));
+  while (i <= thresold) {
+    if (num % i === 0) {
+      flag = false;
+      break;
+    }
+    i++;
+  }
+  return flag;
+}
+// console.log(isPrime(40));
+// console.log(isPrime(13));
+
+//==================================================================
+//Largest element in nested array
+
+function largestInNestedArray(arr, largest = -Infinity) {
+  if (!Array.isArray(arr)) {
+    return;
+  }
+  let max;
+  for (let i = 0; i < arr.length; i++) {
+    if (Array.isArray(arr[i])) {
+      max = largestInNestedArray(arr[i], largest);
+    }
+    if (arr[i] > largest) {
+      largest = arr[i];
+    }
+    if (max > largest) {
+      largest = max;
+    }
+  }
+  return largest;
+}
+
+// console.log(largestInNestedArray([1, [5, 8, 7], [8, 2], [65, 85], 75]));
+
+//============================================================================
+//fibonacci
+
+function fibonacci(num) {
+  let first = 0;
+  let second = 1;
+  let third;
+  console.log(first);
+  console.log(second);
+  for (let i = 0; i < num; i++) {
+    third = first + second;
+    first = second;
+    second = third;
+    console.log(third);
+  }
+}
+// fibonacci(5);
+
+//=============================================================================
+function search() {
+  console.log("Working");
+}
+
+function debounceFunction(cb, delay = 300) {
+  let timer;
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      cb(...args);
+    }, delay);
+  };
+}
+const betterFunc = debounceFunction(search);
+// betterFunc();
+
+//=============================================================================
+//sort the array of object based on key value
+let keyArr = [{ key: 5 }, { key: 75 }, { key: 64 }, { key: 2 }];
+
+function sortArrayOfKeys(arr) {
+  let result = arr.sort((a, b) => a.key - b.key);
+  return result;
+}
+
+// console.log(sortArrayOfKeys(keyArr));
+
+//============================================================================
+// implement a function that takes two sorted arrays amd merges them into single sorted array without using any inbuilt methods
+
+let sortedArr1 = [2, 4, 6, 7];
+let sortedArr2 = [1, 3, 5, 9];
+
+function sortedMergeArray(arr1, arr2) {
+  let resultArr = [];
+  let ind = 0;
+  let index1 = 0;
+  let index2 = 0;
+  while (index1 < arr1.length && index2 < arr.length) {
+    if (arr1[index1] <= arr2[index2]) {
+      resultArr[ind++] = arr1[index1++];
+    } else {
+      resultArr[ind++] = arr2[index2++];
+    }
+  }
+
+  while (index1 < arr1.length) {
+    resultArr[ind++] = arr1[index1++];
+  }
+  while (index2 < arr2.length) {
+    resultArr[ind++] = arr2[index2++];
+  }
+
+  return resultArr;
+}
+
+// console.log(sortedMergeArray(sortedArr1, sortedArr2));
+
+//=================================================================
+//Toggle Arguments
+
+function toggle(...args) {
+  let index = 0;
+
+  return function () {
+    if (args.length) {
+      console.log(args[index++]);
+    }
+    if (index >= args.length) {
+      index = 0;
+    }
+  };
+}
+
+// const togleArgs = toggle("a", "b", "c", "d");
+// togleArgs();
+// togleArgs();
+// togleArgs();
+// togleArgs();
+// togleArgs();
+// togleArgs();
+
+//=================================================================
+//Sampler function - that will call a cb after certain interval of function call.
+
+function message(num) {
+  console.log("Called ", num);
+}
+function Sampler(cb, count = 2) {
+  let countNumber = 1;
+  return (...args) => {
+    if (countNumber < count) {
+      countNumber++;
+      return;
+    }
+    cb(...args);
+    countNumber = 1;
+  };
+}
+
+// const sampler = Sampler(message, 4);
+// sampler(45);
+// sampler(455);
+// sampler(456);
+// sampler(458);
+// sampler(459);
+
+//====================================================================
+//Polyfill for map
+
+Array.prototype.myMap = function (cb) {
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    let entri = cb(this[i], i, this);
+    result.push(entri);
+  }
+  return result;
+};
+
+// console.log(
+//   [4, 5].myMap((item, index) => {
+//     console.log(item, index);
+//     return item + 5;
+//   })
+// );
+
+//================================================================
+//Polyfill for filter
+
+Array.prototype.myFilter = function (cb) {
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    let entri = cb(this[i], i, this);
+    // console.log(entri);
+    if (entri) {
+      result.push(this[i]);
+    }
+  }
+  return result;
+};
+
+// console.log(
+//   [1, 5, 2].myFilter((item, index, arr) => {
+//     console.log(item);
+//     return item > 3;
+//   })
+// );
+
+//==================================================
+//Polyfill for reduce method
+
+Array.prototype.myReduce = function (cb, acc) {
+  let accumulator = acc;
+  for (let i = 0; i < this.length; i++) {
+    if (accumulator) {
+      accumulator = cb(accumulator, this[i], i, this);
+    } else {
+      accumulator = this[i];
+    }
+  }
+
+  return accumulator;
+};
+
+// const res = [4, 5].myReduce((acc, item) => {
+//   console.log(acc, item);
+//   return acc + item;
+// }, 0);
+// console.log(res);
+
+//========================================================
+//Polyfill for Call method
