@@ -909,3 +909,77 @@ Array.prototype.myReduce = function (cb, acc) {
 
 //========================================================
 //Polyfill for Call method
+
+Function.prototype.myCall = function (cnxt, ...args) {
+  if (typeof this !== "function") {
+    throw Error("Call method must called over functions");
+  }
+  let context = cnxt || {};
+  context.cb = this;
+  context.cb(...args);
+};
+
+function callFunction(...a) {
+  console.log("called", a);
+}
+
+// callFunction.myCall(null, 4, 5);
+
+//============================================================
+//Polyfills for bind method
+
+Function.prototype.myBind = function (cnxt, ...args) {
+  if (typeof this !== "function") {
+    throw Error("Bind method must be called over functions");
+  }
+  let context = cnxt || {};
+  context.cb = this;
+  function callback() {
+    return context.cb(...args);
+  }
+  return callback;
+};
+
+// const mybb = callFunction.myBind(null, 45);
+// mybb();
+
+///==============================================================
+//Polyfill for Apply method
+
+Function.prototype.myApply = function (cntx, args) {
+  if (typeof this !== "function") {
+    throw Error("Apply method must be called over function");
+  }
+  let context = cntx || {};
+  context.cb = this;
+  context.cb(...args);
+};
+
+// callFunction.myApply(null, [45, 6, 8]);
+
+//======================================================================
+//Polyfill for once
+
+function onceCallback() {
+  console.log("Once called");
+}
+function once(cb) {
+  let flag = true;
+  return function () {
+    if (flag) {
+      cb();
+      flag = false;
+    }
+    return;
+  };
+}
+
+// const ocb = once(onceCallback);
+// ocb();
+// ocb();
+// ocb();
+// ocb();
+// ocb();
+// ocb();
+
+//===================================================================
